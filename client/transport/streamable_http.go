@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -1103,7 +1102,7 @@ func (c *StreamableHTTP) readSSEWithCursor(ctx context.Context, reader io.ReadCl
 		reader.Close()
 	}()
 
-	br := bufio.NewReader(reader)
+	br := newSSELineReader(reader)
 	var event, data, id string
 	var hasID bool
 	commitID := func() {

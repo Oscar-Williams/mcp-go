@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -368,7 +367,7 @@ func (c *SSE) start(ctx context.Context) error {
 func (c *SSE) readSSE(reader io.ReadCloser, endpointChan chan struct{}, endpointOnce *sync.Once) {
 	defer reader.Close()
 
-	br := bufio.NewReader(reader)
+	br := newSSELineReader(reader)
 	var event, data string
 
 	for {
